@@ -14,6 +14,11 @@ try:
 except ImportError:
     from urlparse import urljoin
 
+try:
+    from urllib.parse import urlparse as url_parse
+except ImportError:
+    from urlparse import urlparse as url_parse
+
 USER_AGENT = "ansible-stratus-vm/0.0.1"
 
 #############################
@@ -175,10 +180,10 @@ class StratusVMAnsible(object):
 
     @staticmethod
     def normalize_url(url):
-        url_parts = urlparse(url)
+        url_parts = url_parse(url)
         if not url_parts.netloc:
             url = 'http://{}'.format(url)
-            url_parts = urlparse(url)
+            url_parts = url_parse(url)
         if not url_parts.path:
             url = '{}/'.format(url)
         return url
